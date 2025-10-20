@@ -33,6 +33,12 @@ WORKDIR /app
 
 COPY --from=builder --chown=1032:1032 /app/venv/bin/ltmanage /usr/bin/
 
+# Copier le script d'entrée
+COPY entrypoint.sh /entrypoint.sh
+
+# Rendre le script exécutable
+RUN chmod +x /entrypoint.sh
+
 RUN if [ "$with_models" = "true" ]; then  \
   # initialize the language models
   if [ ! -z "$models" ]; then \
@@ -43,5 +49,6 @@ RUN if [ "$with_models" = "true" ]; then  \
   fi
 
 EXPOSE 5000
-ENTRYPOINT [ "./venv/bin/libretranslate", "--host", "0.0.0.0", "--port", "${PORT:-5000}" ]
 
+# Utiliser le script d'entrée
+ENTRYPOINT ["/entrypoint.sh"]
