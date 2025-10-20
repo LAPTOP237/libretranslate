@@ -49,4 +49,4 @@ EXPOSE 5000
 
 # Lancer directement l'application Python sans script d'entrée
 # Utilisation de la variable d'environnement PORT
-ENTRYPOINT ["/app/venv/bin/libretranslate", "--host", "0.0.0.0", "--port", "$PORT"]
+ENTRYPOINT ["/app/venv/bin/libretranslate", "--host", "0.0.0.0", "--port", "5000"]
