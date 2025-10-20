@@ -42,11 +42,10 @@ RUN if [ "$with_models" = "true" ]; then  \
   fi \
   fi
 
+# Install Gunicorn to run the application
+RUN ./venv/bin/pip install gunicorn
+
 EXPOSE 5000
 
-# Lancer directement l'application Python sans script d'entrée
-# ENTRYPOINT ["/app/venv/bin/libretranslate", "--host", "0.0.0.0", "--port", "${PORT:-5000}"]
-
-# Lancer directement l'application Python sans script d'entrée
-# Utilisation de la variable d'environnement PORT
-ENTRYPOINT ["/app/venv/bin/libretranslate", "--host", "0.0.0.0", "--port", "5000"]
+# Start the app using Gunicorn
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "libretranslate:app"]
